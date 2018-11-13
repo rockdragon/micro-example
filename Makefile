@@ -1,15 +1,19 @@
 
 GOPATH:=$(shell go env GOPATH)
+SRV_NAME:=micro-example-srv
 
 
 .PHONY: proto
 proto:
 	protoc --proto_path=${GOPATH}/src:. --micro_out=. --go_out=. proto/example/example.proto
 
-.PHONY: build
-build: proto
+.PHONY: mkdir
+mkdir:
+	mkdir -p output/bin
 
-	go build -o micro-example-srv main.go plugin.go
+.PHONY: build
+build: proto mkdir
+	go build -o output/bin/${SRV_NAME} main.go plugin.go
 
 .PHONY: test
 test:
