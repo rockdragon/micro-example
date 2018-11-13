@@ -25,6 +25,16 @@ micro new github.com/rockdragon/micro-example --namespace=go.micro --type=srv
 Micro services depend on service discovery. The default is consul.
 
 ```
+# install protobuf
+brew install protobuf
+
+# install protoc-gen-go
+go get -u github.com/golang/protobuf/proto
+go get -u github.com/golang/protobuf/protoc-gen-go
+
+# install protoc-gen-micro
+go get -u github.com/micro/protoc-gen-micro
+
 # install consul
 brew install consul
 
@@ -44,7 +54,14 @@ make build
 
 Run the service
 ```
-./micro-example-srv
+# run the RPC
+./boot_rpc.sh
+
+# run the API
+./boot_api.sh
+
+# run the API proxy
+micro api
 ```
 
 Build a docker image
