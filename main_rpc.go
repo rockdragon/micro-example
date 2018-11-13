@@ -5,6 +5,7 @@ import (
 	"github.com/micro/go-micro"
 	"github.com/rockdragon/micro_example/handler"
 	"github.com/rockdragon/micro_example/subscriber"
+	"github.com/rockdragon/micro_example/utils"
 
 	example "github.com/rockdragon/micro_example/proto/example"
 )
@@ -12,8 +13,8 @@ import (
 func main() {
 	// New Service
 	service := micro.NewService(
-		micro.Name("go.micro.srv.micro-example"),
-		micro.Version("latest"),
+		micro.Name(utils.SrvName),
+		micro.Version(utils.Version),
 	)
 
 	// Initialise service
@@ -23,10 +24,10 @@ func main() {
 	example.RegisterExampleHandler(service.Server(), new(handler.Example))
 
 	// Register Struct as Subscriber
-	micro.RegisterSubscriber("go.micro.srv.micro-example", service.Server(), new(subscriber.Example))
+	micro.RegisterSubscriber(utils.SrvName, service.Server(), new(subscriber.Example))
 
 	// Register Function as Subscriber
-	micro.RegisterSubscriber("go.micro.srv.micro-example", service.Server(), subscriber.Handler)
+	micro.RegisterSubscriber(utils.SrvName, service.Server(), subscriber.Handler)
 
 	// Run service
 	if err := service.Run(); err != nil {

@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/rockdragon/micro_example/utils"
 	"log"
+	"strings"
 
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/errors"
@@ -17,15 +19,18 @@ type Example struct {
 }
 
 func (s *Example) Call(ctx context.Context, req *api.Request, rsp *api.Response) error {
-	log.Print("Received Say.Hello API request")
+	log.Print("Received API request from: micro_example/example/call")
 
 	name, ok := req.Get["name"]
 	if !ok || len(name.Values) == 0 {
-		return errors.BadRequest("go.micro.api.greeter", "Name cannot be blank")
+		return errors.BadRequest(utils.ApiName, "Name cannot be blank")
 	}
 
-	response, err := s.Client.Call(ctx, &example.Request{})
+	response, err := s.Client.Call(ctx, &example.Request{
+		Name: strings.Join(name.Values, " "),
+	})
 	if err != nil {
+		log.Printf("Error occured: %v", err)
 		return err
 	}
 
@@ -40,7 +45,7 @@ func (s *Example) Call(ctx context.Context, req *api.Request, rsp *api.Response)
 
 func main() {
 	service := micro.NewService(
-		micro.Name("go.micro.api.micro_example"),
+		micro.Name(utils.ApiName),
 	)
 
 	// parse command line flags
@@ -48,7 +53,7 @@ func main() {
 
 	service.Server().Handle(
 		service.Server().NewHandler(
-			&Example{Client: example.NewExampleService("go.micro.srv.micro_example", service.Client())},
+			&Example{Client: example.NewExampleService(utils.SrvName, service.Client())},
 		),
 	)
 
