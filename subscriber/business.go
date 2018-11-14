@@ -7,9 +7,9 @@ import (
 	business "github.com/rockdragon/micro_example/proto/business"
 )
 
-type Api struct{}
+type API struct{}
 
-func (e *Api) Handle(ctx context.Context, msg *business.Message) error {
+func (e *API) Handle(ctx context.Context, msg *business.Message) error {
 	log.Log("Handler Received message: ", msg.Say)
 	return nil
 }

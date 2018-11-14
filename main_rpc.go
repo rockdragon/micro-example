@@ -21,10 +21,10 @@ func main() {
 	service.Init()
 
 	// Register Handler
-	business.RegisterAPIHandler(service.Server(), new(handler.Api))
+	business.RegisterAPIHandler(service.Server(), new(handler.API))
 
 	// Register Struct as Subscriber
-	micro.RegisterSubscriber(utils.SrvName, service.Server(), new(subscriber.Api))
+	micro.RegisterSubscriber(utils.SrvName, service.Server(), new(subscriber.API))
 
 	// Register Function as Subscriber
 	micro.RegisterSubscriber(utils.SrvName, service.Server(), subscriber.Handler)
