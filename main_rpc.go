@@ -7,7 +7,7 @@ import (
 	"github.com/rockdragon/micro_example/subscriber"
 	"github.com/rockdragon/micro_example/utils"
 
-	example "github.com/rockdragon/micro_example/proto/example"
+	business "github.com/rockdragon/micro_example/proto/business"
 )
 
 func main() {
@@ -21,10 +21,10 @@ func main() {
 	service.Init()
 
 	// Register Handler
-	example.RegisterExampleHandler(service.Server(), new(handler.Example))
+	business.RegisterAPIHandler(service.Server(), new(handler.Api))
 
 	// Register Struct as Subscriber
-	micro.RegisterSubscriber(utils.SrvName, service.Server(), new(subscriber.Example))
+	micro.RegisterSubscriber(utils.SrvName, service.Server(), new(subscriber.Api))
 
 	// Register Function as Subscriber
 	micro.RegisterSubscriber(utils.SrvName, service.Server(), subscriber.Handler)

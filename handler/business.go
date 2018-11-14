@@ -5,25 +5,25 @@ import (
 
 	"github.com/micro/go-log"
 
-	example "github.com/rockdragon/micro_example/proto/example"
+	business "github.com/rockdragon/micro_example/proto/business"
 )
 
-type Example struct{}
+type Api struct{}
 
 // Call is a single request handler called via client.Call or the generated client code
-func (e *Example) Call(ctx context.Context, req *example.Request, rsp *example.Response) error {
+func (e *Api) Call(ctx context.Context, req *business.Request, rsp *business.Response) error {
 	log.Log("Received Example.Call request")
 	rsp.Msg = "Hello " + req.Name
 	return nil
 }
 
 // Stream is a server side stream handler called via client.Stream or the generated client code
-func (e *Example) Stream(ctx context.Context, req *example.StreamingRequest, stream example.Example_StreamStream) error {
+func (e *Api) Stream(ctx context.Context, req *business.StreamingRequest, stream business.API_StreamStream) error {
 	log.Logf("Received Example.Stream request with count: %d", req.Count)
 
 	for i := 0; i < int(req.Count); i++ {
 		log.Logf("Responding: %d", i)
-		if err := stream.Send(&example.StreamingResponse{
+		if err := stream.Send(&business.StreamingResponse{
 			Count: int64(i),
 		}); err != nil {
 			return err
@@ -34,14 +34,14 @@ func (e *Example) Stream(ctx context.Context, req *example.StreamingRequest, str
 }
 
 // PingPong is a bidirectional stream handler called via client.Stream or the generated client code
-func (e *Example) PingPong(ctx context.Context, stream example.Example_PingPongStream) error {
+func (e *Api) PingPong(ctx context.Context, stream business.API_PingPongStream) error {
 	for {
 		req, err := stream.Recv()
 		if err != nil {
 			return err
 		}
 		log.Logf("Got ping %v", req.Stroke)
-		if err := stream.Send(&example.Pong{Stroke: req.Stroke}); err != nil {
+		if err := stream.Send(&business.Pong{Stroke: req.Stroke}); err != nil {
 			return err
 		}
 	}

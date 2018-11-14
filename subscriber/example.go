@@ -4,17 +4,17 @@ import (
 	"context"
 	"github.com/micro/go-log"
 
-	example "github.com/rockdragon/micro_example/proto/example"
+	business "github.com/rockdragon/micro_example/proto/business"
 )
 
-type Example struct{}
+type Api struct{}
 
-func (e *Example) Handle(ctx context.Context, msg *example.Message) error {
+func (e *Api) Handle(ctx context.Context, msg *business.Message) error {
 	log.Log("Handler Received message: ", msg.Say)
 	return nil
 }
 
-func Handler(ctx context.Context, msg *example.Message) error {
+func Handler(ctx context.Context, msg *business.Message) error {
 	log.Log("Function Received message: ", msg.Say)
 	return nil
 }

@@ -54,6 +54,12 @@ make build
 
 Run the service
 ```
+# run the Consul
+./boot_consul.sh
+
+# run the RPC
+./boot_rpc.sh
+
 # run the RPC
 ./boot_rpc.sh
 
@@ -61,7 +67,7 @@ Run the service
 ./boot_api.sh
 
 # run the API proxy
-micro api
+./boot_micro_api.sh
 ```
 
 Build a docker image

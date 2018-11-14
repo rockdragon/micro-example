@@ -2,11 +2,12 @@
 GOPATH:=$(shell go env GOPATH)
 SRV_NAME:=micro-rpc
 API_NAME:=micro-api
+PROTO_FILE:=proto/business/business.proto
 
 
 .PHONY: proto
 proto:
-	protoc --proto_path=${GOPATH}/src:. --micro_out=. --go_out=. proto/example/example.proto
+	protoc --proto_path=${GOPATH}/src:. --micro_out=. --go_out=. ${PROTO_FILE}
 
 .PHONY: clean
 clean:
@@ -33,4 +34,4 @@ test:
 
 .PHONY: docker
 docker:
-	docker build . -t micro-example-srv:latest
+	docker build . -t me-moye-srv:latest

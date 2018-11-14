@@ -9,24 +9,24 @@ import (
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/errors"
 	api "github.com/micro/micro/api/proto"
-	example "github.com/rockdragon/micro_example/proto/example"
+	business "github.com/rockdragon/micro_example/proto/business"
 
 	"context"
 )
 
-type Example struct {
-	Client example.ExampleService
+type Api struct {
+	Client business.APIService
 }
 
-func (s *Example) Call(ctx context.Context, req *api.Request, rsp *api.Response) error {
-	log.Print("Received API request from: micro_example/example/call")
+func (s *Api) Call(ctx context.Context, req *api.Request, rsp *api.Response) error {
+	log.Print("Received API request from: /api/call")
 
 	name, ok := req.Get["name"]
 	if !ok || len(name.Values) == 0 {
 		return errors.BadRequest(utils.ApiName, "Name cannot be blank")
 	}
 
-	response, err := s.Client.Call(ctx, &example.Request{
+	response, err := s.Client.Call(ctx, &business.Request{
 		Name: strings.Join(name.Values, " "),
 	})
 	if err != nil {
@@ -53,7 +53,7 @@ func main() {
 
 	service.Server().Handle(
 		service.Server().NewHandler(
-			&Example{Client: example.NewExampleService(utils.SrvName, service.Client())},
+			&Api{Client: business.NewAPIService(utils.SrvName, service.Client())},
 		),
 	)
 
